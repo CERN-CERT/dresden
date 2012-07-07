@@ -78,8 +78,5 @@ install -m0755 %{SOURCE3} ${RPM_BUILD_ROOT}/etc/sysconfig/modules/
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Fri Mar 23 2012 Jaroslaw Polok <jaroslaw.polok@cern.ch> - 1.5
-- updated to latest.
-
-* Fri Mar 16 2012 Jaroslaw Polok <jaroslaw.polok@cern.ch> - 1.4
-- changed packaging for SLC6, following RHEL6 kmod packaging.
+* Fri Jul 6 2012 Panos Sakkos <panos.sakkos@cern.ch> - 1.0
+- Initial pachkaging.
