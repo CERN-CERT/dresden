@@ -71,7 +71,7 @@ Jul  9 13:36:52 kmod-testing kernel: dresden: event: MODULE_STATE_GOING name: ne
 
 In the source directory run:
 
-	make build
+	make all
 
 Then run:
 
