@@ -47,11 +47,11 @@ the list of the loaded kernel modules.
 sudo yum install rpm-build redhat-rpm-config kernel-devel gcc
 cd /tmp/
 git init
-git pull https://github.com/CERN-CERT/netlog
-rpmbuild --rebuild netlog-*.slc6.src.rpm
-sudo rpm -i ~/rpmbuild/RPMS/x86_64/kmod-netlog-*.rpm
+git pull https://github.com/CERN-CERT/dresden
+rpmbuild --rebuild dresden-*.slc6.src.rpm
+sudo rpm -i ~/rpmbuild/RPMS/x86_64/kmod-dresden-*.rpm
 sudo depmod -a  
-sudo modprobe netlog
+sudo modprobe dresden
 </code></pre>
 
 <h3>Supported kernel versions</h3>
