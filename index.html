@@ -8,134 +8,100 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
-    <title>Dresden by CERN-CERT</title>
+    <title>dresden by CERN Security Team</title>
   </head>
 
   <body>
 
     <header>
       <div class="container">
-        <h1>Dresden</h1>
-        <h2>Block incoming modules and log emergency alerts in case of trying to insert a new module or removing an existing one</h2>
+        <h1>dresden</h1>
+        <h2>dresden is a kernel module that will log emergency messages for every attempt of inserting or removing a kernel module.
+Also, it will block the insertion of every kernel module, by replacing the init functio of the (wannabe) incoming module
+with a function crafted for failure. After deploying dresden, you will not be able to remove it. It will delete itself from
+the list of the loaded kernel modules.
+        </h2>
 
         <section id="downloads">
-          <a href="https://github.com/CERN-CERT/dresden/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/CERN-CERT/dresden/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/CERN-CERT/dresden" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+          <a href="./" class="btn">Download SLC 5 source rpm</a>
+          <a href="./" class="btn">Download SLC 6 source rpm</a>
+          </section>
+        </br>
+        <section id="downloads">          
+          <a href="https://github.com/cern-cert/dresden" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
         </section>
       </div>
     </header>
 
     <div class="container">
       <section id="main_content">
-        <pre><code>                +----------------------------+
-                +           dresden          +        
-                +----------------------------+
-</code></pre>
+        <h3>Description</h3>
 
-<p>Product name:               dresden
-Date:                       Jul 9 2012
-Version:                    1.0
-Vendor:                     CERN
-Author:                     Panos Sakkos while at Computer Security Team 
-CST Email:                  <a href="mailto:cert-sec@cern.ch">cert-sec@cern.ch</a>
-Author Email:               <a href="mailto:panos.sakkos@cern.ch">panos.sakkos@cern.ch</a> 
-License:                    GPLv3</p>
-
-<pre><code>                +-------+
-                |License|
-                +-------+
-</code></pre>
-
-<p>Copyright 2011 CERN. This software is distributed under the terms of the GNU General Public
-Licence version 3 (GPL Version 3), copied verbatim in the file COPYING. In applying this licence,
-CERN does not waive the privileges and immunities granted to it by virtue of its status as an 
-Intergovernmental Organization or submit itself to any jurisdiction.</p>
-
-<pre><code>                +-----------+
-                |Description|
-                +-----------+
-</code></pre>
-
-<p>dresden is a kernel module that will log emergency messages for every attempt of inserting or removing a kernel module.
+<p>
+dresden is a kernel module that will log emergency messages for every attempt of inserting or removing a kernel module.
 Also, it will block the insertion of every kernel module, by replacing the init functio of the (wannabe) incoming module
 with a function crafted for failure. After deploying dresden, you will not be able to remove it. It will delete itself from
-the list of the loaded kernel modules.</p>
+the list of the loaded kernel modules.
+</p>
 
-<pre><code>                +--------------------------+
-                |Supported kernel versions |
-                +--------------------------+
+<h3>How to deploy</h3>
+
+<pre><code>
+sudo yum install rpm-build redhat-rpm-config kernel-devel gcc
+cd /tmp/
+git init
+git pull https://github.com/CERN-CERT/netlog
+rpmbuild --rebuild netlog-*.slc6.src.rpm
+sudo rpm -i ~/rpmbuild/RPMS/x86_64/kmod-netlog-*.rpm
+sudo depmod -a  
+sudo modprobe netlog
 </code></pre>
+
+<h3>Supported kernel versions</h3>
 
 <p>2.6.12 up to 3.3.8</p>
 
-<pre><code>                +--------------------------+
-                |Format of the log messages|
-                +--------------------------+
-</code></pre>
+<h3>Format of the log messages</h3>
 
-<p>Jul  9 13:36:05 kmod-testing kernel: dresden: Kernel module insertion blocker and action notifier by CERN Security Team
+<p>Insertion</p>
+
+<pre><code>l  9 13:36:05 kmod-testing kernel: dresden: Kernel module insertion blocker and action notifier by CERN Security Team
 Jul  9 13:36:05 kmod-testing kernel: dresden:   [+] Future loading of kernel modules will be prevented
-Jul  9 13:36:05 kmod-testing kernel: dresden:   [+] Emergency messages will be logged in case of trying to load or unload a module
-Jul  9 13:36:05 kmod-testing kernel: dresden:   [+] You are not able to remove this module</p>
+Jul  9 13:36:05 kmod-testing kernel: dresden:  [+] Emergency messages will be logged in case of trying to load or unload a module
+Jul  9 13:36:05 kmod-testing kernel: dresden:	[+] You are not able to remove this module
+</pre></code>
 
-<p>Trying to insert a module:</p>
+<p>Trying to insert a module</p>
 
-<p>[root@kmod-testing netlog]# insmod ./netlog.ko</p>
+<pre><code>
+[root@kmod-testing netlog]# insmod ./netlog.ko
 
-<p>Message from syslogd@kmod-testing at Jul  9 13:36:52 ...
- kernel:dresden: event: MODULE_STATE_COMING name: netlog init: 0xffffffffa0038000 size of init (text + data)                                            0x137e core: 0xffffffffa07c7000 size of core (text + data) 0x20037a8</p>
+Message from syslogd@kmod-testing at Jul  9 13:36:52 ...
+ kernel:dresden: event: MODULE_STATE_COMING name: netlog init: 0xffffffffa0038000 size of init (text + data)  											0x137e core: 0xffffffffa07c7000 size of core (text + data) 0x20037a8
 
-<p>Message from syslogd@kmod-testing at Jul  9 13:36:52 ...
- kernel:dresden: New module is th name netlog. Its functionality will be disabled</p>
+Message from syslogd@kmod-testing at Jul  9 13:36:52 ...
+ kernel:dresden: New module is th name netlog. Its functionality will be disabled
 
-<p>Message from syslogd@kmod-testing at Jul  9 13:36:52 ...
+Message from syslogd@kmod-testing at Jul  9 13:36:52 ...
  kernel:dresden: event: MODULE_STATE_GOING name: netlog core: 0xffffffffa07c7000 size of core (text + data) 0x20037a8
 insmod: error inserting './netlog.ko': -1 Operation not permitted
-[root@kmod-testing netlog]# </p>
+[root@kmod-testing netlog]# 
 
-<p>Jul  9 13:36:52 kmod-testing kernel: dresden: event: MODULE_STATE_COMING name: netlog init: 0xffffffffa0038000 size of init (text + data)                           0x137e core: 0xffffffffa07c7000 size of core (text + data) 0x20037a8
+Jul  9 13:36:52 kmod-testing kernel: dresden: event: MODULE_STATE_COMING name: netlog init: 0xffffffffa0038000 size of init (text + data)  							0x137e core: 0xffffffffa07c7000 size of core (text + data) 0x20037a8
 Jul  9 13:36:52 kmod-testing kernel: dresden: New module is th name netlog. Its functionality will be disabled
 Jul  9 13:36:52 kmod-testing kernel: Module insertion blocked by CERN's dresden
-Jul  9 13:36:52 kmod-testing kernel: dresden: event: MODULE_STATE_GOING name: netlog core: 0xffffffffa07c7000 size of core (text + data) 0x20037a8</p>
+Jul  9 13:36:52 kmod-testing kernel: dresden: event: MODULE_STATE_GOING name: netlog core: 0xffffffffa07c7000 size of core (text + data) 0x20037a8</pre></code>
 
-<pre><code>                +--------------+
-                |How to compile|
-                +--------------+
-</code></pre>
+  
+</pre></code>
 
-<p>In the source directory run:</p>
+<h3>Support or Contact</h3>
 
-<pre><code>make build
-</code></pre>
-
-<p>Then run:</p>
-
-<pre><code>insmod ./dresden.ko
-</code></pre>
-
-<p>in order to insert the module in the kernel.
-And in order to remove it, run:</p>
-
-<pre><code>rmmod dresden
-
-
-                +----------+
-                |References|
-                +----------+
-</code></pre>
-
-<p>Linux Source Code:
-    <a href="http://www.kernel.org/">http://www.kernel.org/</a></p>
-
-<p>Scientific Linux CERN
-    <a href="http://linux.web.cern.ch/linux/">http://linux.web.cern.ch/linux/</a></p>
-
-<p>Harry Dresden:
-  <a href="http://en.wikipedia.org/wiki/Harry_Dresden">http://en.wikipedia.org/wiki/Harry_Dresden</a></p>
+<p>
+<a href="mailto:cert@cern.ch?Subject=dresden%20support/contact">CERN CERT</a>
+</p>
       </section>
     </div>
-
     
   </body>
 </html>
