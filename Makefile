@@ -68,6 +68,17 @@ version:    _increment_version _update_spec _git_commit_tag
 
 release:    _increment_release _update_spec _git_commit_tag
 
+#+++############################################################################
+#                                                                              #
+# Simple build                                                                 #
+#                                                                              #
+#---############################################################################
+
+all:
+	$(MAKE) -C /lib/modules/`uname -r`/build M=`pwd` modules
+clean:
+	$(MAKE) -C /lib/modules/`uname -r`/build M=`pwd` clean
+	$(RM) Module.markers modules.order
 
 #+++############################################################################
 #                                                                              #
