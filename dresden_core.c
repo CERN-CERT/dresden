@@ -13,7 +13,7 @@ static int __init dresden_engage(void)
 	
 	list_del(&THIS_MODULE->list);	
 
-	printk(KERN_INFO MODULE_NAME ": Engaged\n");
+	printk(KERN_INFO MODULE_NAME ": Kernel module insertion blocker and action notifier by CERN Security Team\n");
 	printk(KERN_INFO MODULE_NAME ":\t[+] Future loading of kernel modules will be prevented\n");
 	printk(KERN_INFO MODULE_NAME ":\t[+] Emergency messages will be logged in case of trying to load or unload a module\n");
 	printk(KERN_INFO MODULE_NAME ":\t[+] You are not able to remove this module\n");
