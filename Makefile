@@ -2,7 +2,7 @@
 # Variables needed to build the kernel module
 #
 name      = dresden
-src_files = dresden_core.c module_notifier_event.c
+src_files = dresden_core.c module_notifier_event.c proc_entry.c
 
 obj-m += $(name).o
 $(name)-objs := $(src_files:.c=.o)
