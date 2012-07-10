@@ -25,8 +25,18 @@ static int __init dresden_engage(void)
 	
 	if(show_proc_entry)
 	{
-		init_proc_entry();
-		printk(KERN_INFO MODULE_NAME ":\t[+] Created /proc/dresden entry\n");
+		int err;
+		
+		err = init_proc_entry();
+
+		if(err == PROC_CREATED)
+		{
+			printk(KERN_INFO MODULE_NAME ":\t[+] Created /proc/dresden entry\n");
+		}
+		else
+		{
+			printk(KERN_ERR MODULE_NAME ":\t[-] Failed to create /proc/dresden entry\n");		
+		}
 	}
 
 	return DRESDEN_OK;
