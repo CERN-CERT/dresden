@@ -34,7 +34,7 @@ the list of the loaded kernel modules.
 					|Supported kernel versions |
 					+--------------------------+
           
-2.6.12 up to 3.3.8
+2.6.12 up to 3.4.9
 
 					+--------------------------+
 					|Format of the log messages|
