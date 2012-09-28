@@ -34,7 +34,7 @@ the list of the loaded kernel modules.
 					|Supported kernel versions |
 					+--------------------------+
           
-2.6.12 up to 3.4.9
+2.6.18 up to 3.4.9
 
 					+--------------------------+
 					|Format of the log messages|
@@ -69,19 +69,16 @@ Jul  9 13:36:52 kmod-testing kernel: dresden: event: MODULE_STATE_GOING name: ne
 					|How to compile|
 					+--------------+
 
-In the source directory run:
+In the src directory run:
 
-	make all
+	make
 
 Then run:
 
 	insmod ./dresden.ko
 
-in order to insert the module in the kernel.
-And in order to remove it, run:
 
-	rmmod dresden
-
+You cannot remove dresden after insertion.
 
 					+----------+
 					|References|
