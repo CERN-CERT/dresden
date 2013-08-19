@@ -24,12 +24,12 @@ static int dresden_module_handler(struct notifier_block *this, unsigned long eve
 	{
 		case(MODULE_STATE_COMING):
 					printk(KERN_EMERG MODULE_NAME ": event: MODULE_STATE_COMING name: %s init: 0x%p size of init (text + data)\
-													0x%x core: 0x%p size of core (text + data) 0x%x\n", 
-													new_module->name, new_module->init, new_module->init_size, 
+													0x%x core: 0x%p size of core (text + data) 0x%x\n",
+													new_module->name, new_module->init, new_module->init_size,
 													new_module->module_core, new_module->core_size);
 					new_module->init = fail;
 
-					printk(KERN_EMERG MODULE_NAME ": New module is th name %s. Its functionality will be disabled\n", new_module->name);
+					printk(KERN_EMERG MODULE_NAME ": New module name is '%s'. Its functionality will be disabled\n", new_module->name);
 			break;
 		case(MODULE_STATE_LIVE):
 			if(new_module == THIS_MODULE)
@@ -39,11 +39,11 @@ static int dresden_module_handler(struct notifier_block *this, unsigned long eve
 				break;
 			}
 
-                        printk(KERN_EMERG MODULE_NAME ": event: MODULE_STATE_LIVE name: %s core: 0x%p size of core (text + data) 0x%x\n", 
+                        printk(KERN_EMERG MODULE_NAME ": event: MODULE_STATE_LIVE name: %s core: 0x%p size of core (text + data) 0x%x\n",
                         										new_module->name, new_module->module_core, new_module->core_size);
                         break;		
 		case(MODULE_STATE_GOING):
-			printk(KERN_EMERG MODULE_NAME ": event: MODULE_STATE_GOING name: %s core: 0x%p size of core (text + data) 0x%x\n", 
+			printk(KERN_EMERG MODULE_NAME ": event: MODULE_STATE_GOING name: %s core: 0x%p size of core (text + data) 0x%x\n",
 													new_module->name, new_module->module_core, new_module->core_size);
 			break;
 		default:
